@@ -1,0 +1,22 @@
+{
+    "name": "advent_of_code_2024",
+    "version": "0.1.0",
+    "author": "Saad Sidqui",
+    "private": true,
+    "type": "module",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/saadsidqui/aoc24.git"
+    },
+    "imports": {
+        "#utils/*": "./src/utils/*"
+    },
+    "dependencies": {
+        "@inquirer/prompts": "^7.1.0",
+        "@types/node": "^22.10.1",
+        "eslint": "^9.16.0",
+        "picocolors": "^1.1.1",
+        "voca": "^1.4.1"
+    }
+}
