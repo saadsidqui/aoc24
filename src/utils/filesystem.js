@@ -42,7 +42,7 @@ export const read_file = (filepath) =>
  *
  * @param {string} filepath Path to file to be read
  * @param {boolean} [filterBlanks=false] If true, filters out blank lines
- * @returns {string} File content
+ * @returns {string[]} File content
  */
 export const read_lines = (filepath, filterBlanks = false) => {
     let result = read_file(filepath).split("\n");
