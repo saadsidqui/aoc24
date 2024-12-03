@@ -8,8 +8,10 @@ const reports = read_lines(puzzle_input('02'), true)
  * @param {number[]} levels
  * @param {number} culprit
  */
-const isSafeReport = (originalLevels, culprit) => {
-    const levels = originalLevels.toSpliced(culprit, 1);
+const isSafeReport = (originalLevels, culprit = null) => {
+    const levels = (culprit !== null) ?
+        originalLevels.toSpliced(culprit, 1):
+        originalLevels;
     const signs = { [1]: 0, [-1]: 0 };
     for (let i = 1; i < levels.length; i++) {
         const diff = levels[i] - levels[i - 1];
@@ -23,16 +25,18 @@ const isSafeReport = (originalLevels, culprit) => {
 
 let totalSafeReports = 0;
 for (const levels of reports) {
-    let flag = false;
+    let flag = isSafeReport(levels);
 
-    // I must be missing something really obvious,
-    // this is definitely not the best time complexity possible
-    // for this puzzle.
-    for (let i = 0; i < levels.length; i++) {
-        flag = isSafeReport(levels, i);
-        if (flag)
-            break;
+    if (!flag) {
+        // I must be missing something really obvious,
+        // this is definitely not the best time complexity possible
+        // for this puzzle.
+        for (let i = 0; i < levels.length; i++) {
+            flag = isSafeReport(levels, i);
+            if (flag) break;
+        }
     }
+
     if (flag)
         totalSafeReports++;
 
