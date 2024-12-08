@@ -28,7 +28,7 @@ export const sha1 = (payload) => crypto.createHash('sha1').update(payload).diges
 export const sha256 = (payload) => crypto.createHash('sha256').update(payload).digest('hex');
 
 /**
- * Async sleep();
+ * Async sleep().
  *
  * @param {number} ms Milliseconds to sleep. Approximate.
  * @returns {void}

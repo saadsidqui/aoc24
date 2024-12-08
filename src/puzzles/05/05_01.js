@@ -61,4 +61,4 @@ for (const update of updates) {
 }
 
 success('The sum of the middle numbers from all the correctly-ordered updates is ') +
-    shout(`${sum}`);
+    shout(sum);

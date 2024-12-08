@@ -66,3 +66,12 @@ export const gcd = (a, b) => {
  * @returns {number} Least common multiple of `a` and `b`
  */
 export const lcm = (a, b) => ((a | b) === 0) ? 0 : Math.abs(a) * (Math.abs(b) / gcd(a, b));
+
+/**
+ * Calculates the Cantor pairing function of two numbers
+ *
+ * @param {number} x First number
+ * @param {number} y Second number
+ * @returns {number} Cantor pairing function of `x` and `y`
+ */
+export const cantor = (x, y) => (((x + y) * (x + y + 1)) / 2) + y;
