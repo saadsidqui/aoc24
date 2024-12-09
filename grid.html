@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+    <!--
+        A simple interactive grid to help visualize things when debugging.
+
+        - Click to place blocks. Each mouse button places a different color.
+        - Click on a placed block to clear it.
+        - Set the `defaultOn` array with points you would like on by default
+        - Click on the top-left block to clear the board and put the defaults back on.
+    -->
+    <head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Test Grid</title>
+		<style>
+			:root {
+				--body-padding: 20px;
+				--cell-padding: 0px;
+
+				--cell-border-color: #444;
+				--cell-background: #ddd;
+				--cell-color: #222;
+				--cell-hover-background: #ccc;
+
+				--cell-0-background: #330;
+				--cell-0-color: #880;
+				--cell-0-hover-background: #440;
+
+				--cell-1-background: #006;
+				--cell-1-color: #66f;
+				--cell-1-hover-background: #008;
+
+				--cell-2-background: #030;
+				--cell-2-color: #080;
+				--cell-2-hover-background: #040;
+
+				--cell-3-background: #222;
+				--cell-3-color: #ddd;
+				--cell-3-hover-background: #333;
+
+				--cell-4-background: #400;
+				--cell-4-color: #d00;
+				--cell-4-hover-background: #500;
+
+				--reset-background: #404;
+
+				--ruler-background: #202;
+				--ruler-color: #eee;
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: sans-serif, monospace;
+				user-select: none;
+			}
+
+			body {
+				background: #111;
+				padding: var(--body-padding);
+			}
+
+			.map {
+				margin: auto;
+				height: calc(100dvmin - (2 * var(--body-padding)));
+				width: calc(100dvmin - (2 * var(--body-padding)));
+				border: solid 1px var(--cell-border-color);
+			}
+
+			.map>.row {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				width: 100%;
+			}
+
+			.map>.row>.cell {
+				display: inline-block;
+				height: 100%;
+				color: var(--cell-color);
+				background-color: var(--cell-background);
+				border: solid 1px var(--cell-border-color);
+				align-content: center;
+				text-align: center;
+			}
+
+			.map>.row>.ruler {
+				height: 100%;
+				background-color: var(--ruler-background);
+				color: var(--ruler-color);
+			}
+
+			.map>.row.ruler>.cell {
+				background-color: var(--ruler-background);
+				color: var(--ruler-color);
+			}
+
+			.map>.row.ruler>.reset {
+				background-color: var(--reset-background);
+			}
+
+			.map>.row:not(.ruler)>.cell:not(.ruler):hover {
+				background-color: var(--cell-hover-background);
+			}
+
+			.map>.row>.cell[data-0] {
+				font-weight: bold;
+				color: var(--cell-0-color);
+				background-color: var(--cell-0-background);
+			}
+			.map>.row:not(.ruler)>.cell:not(.ruler)[data-0]:hover {
+				background-color: var(--cell-0-hover-background);
+			}
+
+			.map>.row>.cell[data-1] {
+				font-weight: bold;
+				color: var(--cell-1-color);
+				background-color: var(--cell-1-background);
+			}
+			.map>.row:not(.ruler)>.cell:not(.ruler)[data-1]:hover {
+				background-color: var(--cell-1-hover-background);
+			}
+
+			.map>.row>.cell[data-2] {
+				font-weight: bold;
+				color: var(--cell-2-color);
+				background-color: var(--cell-2-background);
+			}
+			.map>.row:not(.ruler)>.cell:not(.ruler)[data-2]:hover {
+				background-color: var(--cell-2-hover-background);
+			}
+
+			.map>.row>.cell[data-3] {
+				font-weight: bold;
+				color: var(--cell-3-color);
+				background-color: var(--cell-3-background);
+			}
+			.map>.row:not(.ruler)>.cell:not(.ruler)[data-3]:hover {
+				background-color: var(--cell-3-hover-background);
+			}
+
+			.map>.row>.cell[data-4] {
+				font-weight: bold;
+				color: var(--cell-4-color);
+				background-color: var(--cell-4-background);
+			}
+			.map>.row:not(.ruler)>.cell:not(.ruler)[data-4]:hover {
+				background-color: var(--cell-4-hover-background);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="map" class="map"></div>
+
+		<script>
+			const map = document.getElementById('map');
+			const gridSize = [11, 11];
+
+			const defaultOn = [];
+
+			const toggleCell = (e) => {
+				const c = e.target;
+
+				if (e.preventDefault) e.preventDefault();
+				if (e.stopPropagation) e.stopPropagation();
+
+				for (const btn of [0, 1, 2, 3, 4]) {
+					if (c.dataset[btn] !== undefined) {
+						delete c.dataset[btn];
+						return false;
+					}
+				}
+
+				c.dataset[e.button] = true;
+				return false;
+			};
+			const cleaCells = () => {
+				for (let j = 0; j < gridSize[1]; j++) {
+					for (let i = 0; i < gridSize[0]; i++) {
+						const c = document.getElementById(`${i}_${j}`);
+						for (const btn of [0, 1, 2, 3, 4]) {
+							delete c.dataset[btn];
+						}
+					}
+				}
+				for (const [x, y] of defaultOn) {
+					const cell = document.getElementById(`${x}_${y}`);
+					toggleCell({ target: cell, button: 3 });
+				}
+			};
+
+			const dimensionBase = [(gridSize[0] * 2) + 1, (gridSize[1] * 2) + 1];
+			const regularCell = [
+				(200 / dimensionBase[0]).toFixed(2), (200 / dimensionBase[1]).toFixed(2)
+			];
+			const rulerCell = [
+				(100 / dimensionBase[0]).toFixed(2), (100 / dimensionBase[1]).toFixed(2)
+			];
+
+			for (let y = -1; y < gridSize[1]; y++) {
+				const row = document.createElement('div');
+				row.classList.add('row');
+				row.id = `${y}`;
+
+				if (y < 0) {
+					row.classList.add('ruler');
+					row.style.height = `${rulerCell[1]}%`;
+				} else {
+					row.style.height = `${regularCell[1]}%`;
+				}
+
+				map.appendChild(row);
+
+				for (let x = -1; x < gridSize[0]; x++) {
+					const cell = document.createElement('div');
+					cell.id = `${x}_${y}`;
+					cell.classList.add('cell');
+
+					if (x < 0) {
+						cell.classList.add('ruler');
+						cell.style.width = `${rulerCell[0]}%`;
+					} else {
+						cell.style.width = `${regularCell[0]}%`;
+					}
+
+					if ((x >= 0) && (y < 0)) {
+						cell.innerHTML = x;
+					} else if ((x < 0) && (y >= 0)) {
+						cell.innerHTML = y;
+					}
+
+					if ((x >= 0) && (y >= 0)) {
+						cell.onmouseup = toggleCell;
+						cell.innerHTML = `${x}, ${y}`;
+					}
+
+					cell.oncontextmenu = () => false;
+
+					if ((x < 0) && (y < 0)) {
+						cell.classList.add('reset')
+						cell.onmouseup = cleaCells;
+					}
+					row.appendChild(cell);
+				}
+			}
+			cleaCells();
+
+		</script>
+	</body>
+
+</html>
