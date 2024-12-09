@@ -1,5 +1,6 @@
 import { shout, success } from "#utils/console.js";
 import { puzzle_input, read_lines } from "#utils/filesystem.js";
+import { cantor } from "#utils/number.js";
 
 /**
  * @typedef {[number, number]} Point
@@ -58,13 +59,13 @@ const isSamePoint = (a, b) => (a[0] == b[0]) && (a[1] == b[1]);
  * @param {Point} p
  * @returns {string}
  */
-const pointKey = (p) => `${p[0]},${p[1]}`;
+const pointKey = (p) => cantor(p[0], p[1]);
 
 /**
  * @param {OrientedPoint} p
  * @returns {string}
  */
-const orientedPointKey = (p) => `${p.pos[0]},${p.pos[1]}_${p.dir}`;
+const orientedPointKey = (p) => cantor(cantor(p.pos[0], p.pos[1]), p.dir);
 
 /**
  * @param {OrientedPoint} guard
@@ -148,7 +149,7 @@ const findValidPotentialNewObstaclePlacements = (obstacles, path, guard, start) 
 
         const visited = new Set(), newGuard = structuredClone(guard);
         while (true) {
-            const isLoop = tryLoop(newGuard,  newObstacles, visited);
+            const isLoop = tryLoop(newGuard, newObstacles, visited);
             if (isLoop === false)
                 continue;
 

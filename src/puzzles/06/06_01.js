@@ -1,5 +1,6 @@
 import { shout, success } from "#utils/console.js";
 import { puzzle_input, read_lines } from "#utils/filesystem.js";
+import { cantor } from "#utils/number.js";
 
 /**
  * @typedef {[number, number]} Point
@@ -55,7 +56,7 @@ const isSamePoint = (a, b) => (a[0] == b[0]) && (a[1] == b[1]);
  * @returns {boolean}
  */
 const getGuardPath = (guard, obstacles, visited) => {
-    visited.add(`${guard.pos[0]},${guard.pos[1]}`);
+    visited.add(cantor(guard.pos[0], guard.pos[1]));
 
     const next = nextPosition(guard.pos, guard.dir);
     if (outOfBounds(next))
@@ -76,7 +77,7 @@ const walkTheWalk = () => {
         throw new RangeError('No input data provided');
 
     BOUNDS[0] = lines[0].length - 1;
-    BOUNDS[1]= lines.length - 1;
+    BOUNDS[1] = lines.length - 1;
 
     /** @type {Guard} */
     const guard = { start: [0, 0], pos: [0, 0], dir: UP };
@@ -109,5 +110,7 @@ const walkTheWalk = () => {
     return visited.size;
 };
 
+console.time('Run');
 success('The number of distinct positions the guard will visit before leaving the mapped area is ') +
     shout(walkTheWalk());
+console.timeEnd('Run');

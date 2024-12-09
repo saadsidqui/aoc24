@@ -26,5 +26,5 @@ export class Point {
         return that.substract(this);
     }
     hash() { return cantor(this.x, this.y) }
-    toString() { return `(${this.x}, ${this.y})`; }
+    toString() { return `${this.x},${this.y}`; }
 }
