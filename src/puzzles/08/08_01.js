@@ -61,6 +61,6 @@ const solve = () => {
 }
 
 console.time('Run');
-success('The number of unique locations within the bounds of the map contain an antinode is ') +
+success('The number of unique locations within the bounds of the map containing an antinode is ') +
     shout(solve());
 console.timeEnd('Run');
