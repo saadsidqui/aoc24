@@ -8,7 +8,7 @@ const re = /(?<opcode>mul|do|don't)\((?:(?<operand1>\d{1,3}),(?<operand2>\d{1,3}
 const matches = memory.matchAll(re);
 
 let totalSum = 0, execFlag = true;
-for (const {groups} of matches) {
+for (const { groups } of matches) {
     switch (groups['opcode']) {
         case 'mul':
             if (execFlag)

@@ -8,19 +8,20 @@ import { puzzle_input, read_lines } from "#utils/filesystem.js";
 
 /**
  * @param {Operands} operands
- * @param {Map.<number[]>} cache
+ * @param {Map.<string, number[]>} cache
  * @returns {number[]}
  */
 const recurse = (operands, cache) => {
     const key = operands.join('.');
-    let result = [];
+    const cached = cache.get(key);
+    if (cached)
+        return cached;
 
     if (operands.length < 2)
         throw RangeError('A minimum of 2 elements is expected.');
 
-    if (cache.has(key)) {
-        return cache.get(key);
-    } else if (operands.length == 2) {
+    let result = [];
+    if (operands.length == 2) {
         result = [(operands[0] + operands[1]), (operands[0] * operands[1])];
     } else {
         const left = operands[0];

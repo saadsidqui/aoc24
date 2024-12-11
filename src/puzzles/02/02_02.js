@@ -10,7 +10,7 @@ const reports = read_lines(puzzle_input('02'), true)
  */
 const isSafeReport = (originalLevels, culprit = null) => {
     const levels = (culprit !== null) ?
-        originalLevels.toSpliced(culprit, 1):
+        originalLevels.toSpliced(culprit, 1) :
         originalLevels;
     const signs = { [1]: 0, [-1]: 0 };
     for (let i = 1; i < levels.length; i++) {

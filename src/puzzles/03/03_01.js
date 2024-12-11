@@ -8,7 +8,7 @@ const re = /(?<opcode>mul)\((?<operand1>\d{1,3}),(?<operand2>\d{1,3})\)/g;
 const matches = memory.matchAll(re);
 
 let totalSum = 0;
-for (const {groups} of matches) {
+for (const { groups } of matches) {
     totalSum += parseInt(groups['operand1']) * parseInt(groups['operand2']);
 }
 

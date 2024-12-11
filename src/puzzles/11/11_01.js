@@ -5,7 +5,7 @@ import { puzzle_input, read_file } from "#utils/filesystem.js";
  * @param {number} n
  * @param {number} depth
  * @param {number} targetDepth
- * @param {Map.<number, number>} cache
+ * @param {Map.<string, number>} cache
  */
 const blink = (n, depth, targetDepth, cache) => {
     const key = `${n}.${depth}`;

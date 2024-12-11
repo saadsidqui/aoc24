@@ -9,11 +9,11 @@ const reports = read_lines(puzzle_input('02'), true)
  * @returns {boolean}
  */
 const isSafeReport = (levels) => {
-    const signs = {[1]: 0, [-1]: 0};
+    const signs = { [1]: 0, [-1]: 0 };
     for (let i = 1; i < levels.length; i++) {
         const diff = levels[i] - levels[i - 1];
         const distance = Math.abs(diff);
-        if ((distance < 1)||(distance > 3))
+        if ((distance < 1) || (distance > 3))
             return false;
         signs[Math.sign(diff)]++;
     }
